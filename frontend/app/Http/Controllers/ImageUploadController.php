@@ -1,3 +1,4 @@
+<?php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -19,3 +20,4 @@ class ImageUploadController extends Controller
         return response()->json(['message' => '画像がアップロードされませんでした。'], 400);
     }
 }
+
