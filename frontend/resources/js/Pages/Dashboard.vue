@@ -2,9 +2,11 @@
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import axios from 'axios'; // Axiosをインポート
 
 // 画像を格納する状態変数を定義
 const selectedImage = ref(null);
+const imageFile = ref(null); // 画像ファイルを格納する変数
 
 function handleImageUpload(event) {
     const file = event.target.files[0];
@@ -14,13 +16,25 @@ function handleImageUpload(event) {
             selectedImage.value = e.target.result;
         };
         reader.readAsDataURL(file);
+        imageFile.value = file; // ファイルを保存
     }
 }
 
-function handleSubmit() {
-    if (selectedImage.value) {
-        alert('画像が送信されました！');
-        // ここで送信処理を追加できます。例: API呼び出しなど
+async function handleSubmit() {
+    if (imageFile.value) {
+        const formData = new FormData();
+        formData.append('image', imageFile.value);
+
+        try {
+            const response = await axios.post('/api/upload-image', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert('画像が送信されました！' + response.data.path);
+        } catch (error) {
+            alert('画像の送信に失敗しました。');
+        }
     } else {
         alert('画像を選択してください。');
     }
