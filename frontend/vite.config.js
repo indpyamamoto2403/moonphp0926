@@ -16,5 +16,10 @@ export default defineConfig({
                 },
             },
         }),
+        
     ],
+    server: {
+        host: 'localhost', // 任意のIPアドレスでリッスン
+        port: 5173
+    }
 });
