@@ -1,6 +1,6 @@
 <template>
     <Head title="Welcome" />
-    <div class="min-h-screen bg-gradient-to-b from-blue-500 to-black text-black/50 dark:text-white/50">
+    <div class="min-h-screen bg-gradient-to-b from-blue-600 to-black text-black/50 dark:text-white/50 pr-5 pt-3">
         <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
             <Link
                 v-if="$page.props.auth.user"
@@ -16,14 +16,6 @@
                     class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-gray-300 focus:outline-none focus-visible:ring-[#FF2D20]"
                 >
                     Log in
-                </Link>
-
-                <Link
-                    v-if="canRegister"
-                    :href="route('register')"
-                    class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-gray-300 focus:outline-none focus-visible:ring-[#FF2D20]"
-                >
-                    Register
                 </Link>
             </template>
         </nav>

@@ -2,11 +2,12 @@
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import axios from 'axios'; // Axiosをインポート
+import axios from 'axios';
 
-// 画像を格納する状態変数を定義
 const selectedImage = ref(null);
-const imageFile = ref(null); // 画像ファイルを格納する変数
+const imageFile = ref(null);
+const ocr_result = ref("");
+const loading = ref(false);
 
 function handleImageUpload(event) {
     const file = event.target.files[0];
@@ -16,12 +17,13 @@ function handleImageUpload(event) {
             selectedImage.value = e.target.result;
         };
         reader.readAsDataURL(file);
-        imageFile.value = file; // ファイルを保存
+        imageFile.value = file;
     }
 }
 
 async function handleSubmit() {
     if (imageFile.value) {
+        loading.value = true;
         const formData = new FormData();
         formData.append('image', imageFile.value);
 
@@ -31,9 +33,14 @@ async function handleSubmit() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            alert('画像が送信されました！' + response.data.path);
+            console.log(response.data);
+            //data.ocr_dataをJSONに変換する
+            ocr_result.value = JSON.stringify(response.data.ocr_data, null, 2) || "OCR 結果が見つかりませんでした。";
         } catch (error) {
-            alert('画像の送信に失敗しました。');
+            console.error('Error:', error);
+            ocr_result.value = "画像の送信に失敗しました。";
+        } finally {
+            loading.value = false;
         }
     } else {
         alert('画像を選択してください。');
@@ -43,17 +50,10 @@ async function handleSubmit() {
 
 <template>
     <Head title="Dashboard" />
-
     <AuthenticatedLayout>
-        <div class="min-h-screen py-12 bg-gradient-to-b from-blue-500 to-black flex flex-col items-center">
+        <div class="min-h-screen py-12 bg-gradient-to-b from-blue-600 to-black flex flex-col items-center">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-black shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-white text-center text-xl font-semibold">
-                        Moon Portal にログインしました。
-                    </div>
-                </div>
-
-                <!-- モダンな画像アップロードセクション -->
+                <!-- 画像アップロードセクション -->
                 <div class="mt-10 bg-white p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
                     <label class="block text-lg font-medium text-gray-700 mb-2 text-center">
                         画像をアップロードしてください
@@ -65,7 +65,7 @@ async function handleSubmit() {
                         class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer p-2 mb-4 focus:ring focus:ring-indigo-200 focus:outline-none"
                     />
 
-                    <!-- プレビューがあれば表示 -->
+                    <!-- プレビュー -->
                     <div v-if="selectedImage" class="mb-4">
                         <img :src="selectedImage" alt="Uploaded image preview" class="w-full h-auto rounded-lg shadow-md" />
                     </div>
@@ -73,10 +73,21 @@ async function handleSubmit() {
                     <!-- 送信ボタン -->
                     <button
                         @click="handleSubmit"
-                        class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200"
+                        :disabled="loading"
+                        class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 disabled:opacity-50"
                     >
-                        画像を送信
+                        {{ loading ? '処理中...' : '画像を送信' }}
                     </button>
+                </div>
+            </div>
+            <!-- OCR 結果表示セクション -->
+            <div class="mt-10 bg-white p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
+                <label class="block text-lg font-medium text-gray-700 mb-2 text-center">
+                    OCR結果
+                </label>
+                <div class="text-center">
+                    <p v-if="loading">OCR処理中...</p>
+                    <p v-else>{{ ocr_result }}</p>
                 </div>
             </div>
         </div>
