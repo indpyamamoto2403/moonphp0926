@@ -21,9 +21,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    #api
+    Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
+    Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
 });
-
-#api
-Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
-
 require __DIR__.'/auth.php';

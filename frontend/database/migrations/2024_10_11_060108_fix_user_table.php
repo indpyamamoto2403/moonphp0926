@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('moon.users', function (Blueprint $table) {
-            $table->dropColumn(['email', 'email_verified_at', 'remember_token']);
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['remember_token']);
         });
     }
 
@@ -21,9 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('moon.users', function (Blueprint $table) {
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+        Schema::table('users', function (Blueprint $table) {
             $table->string('remember_token', 100)->nullable();
         });
     }
