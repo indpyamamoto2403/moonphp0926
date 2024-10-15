@@ -12,13 +12,13 @@ const showingNavigationDropdown = ref(false);
 
 <template>
     <div>
-        <div class="min-h-screen bg-blue-600">
+        <div class="min-h-screen bg-green-600">
             <nav
-                class="border-b border-yellow-300 bg-blue-600"
+                class="bg-blue-600"
             >
                 <!-- Primary Navigation Menu -->
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="flex h-16 justify-between">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+                    <div class="flex h-16 justify-between w-1/2">
                         <div class="flex">
                             <!-- Logo -->
 
@@ -30,7 +30,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    ユーザー認証登録画面
                                 </NavLink>
                             </div>
                         </div>

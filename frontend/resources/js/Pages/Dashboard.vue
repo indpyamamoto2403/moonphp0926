@@ -130,10 +130,7 @@ async function handleExtract() {
         alert('必要な情報を入力してください。');
     }
 }
-
-
 </script>
-
 <template>
     <Head title="Dashboard" />
     <AuthenticatedLayout>
@@ -142,7 +139,7 @@ async function handleExtract() {
                 <!-- 画像アップロードセクション -->
                 <div class="mt-10 bg-white p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
                     <label class="block text-lg font-medium text-gray-700 mb-2 text-center">
-                        名刺から入力情報を取得
+                        名刺から入 力情報を取得
                     </label>
                     <input
                         type="file"
