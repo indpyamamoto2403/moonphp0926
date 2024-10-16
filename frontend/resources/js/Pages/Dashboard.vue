@@ -132,7 +132,7 @@ async function handleExtract() {
 }
 </script>
 <template>
-    <Head title="Dashboard" />
+    <Head title="登録画面" />
     <AuthenticatedLayout>
             <div class="min-h-screen bg-black flex flex-col items-center mb-10">
                 <div class="w-full">
