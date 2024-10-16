@@ -134,12 +134,12 @@ async function handleExtract() {
 <template>
     <Head title="Dashboard" />
     <AuthenticatedLayout>
-        <div class="min-h-screen py-12 bg-gradient-to-b from-blue-600 to-black flex flex-col items-center">
+        <div class="min-h-screen py-12 bg-black flex flex-col items-center">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <!-- 画像アップロードセクション -->
                 <div class="mt-10 bg-white p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
                     <label class="block text-lg font-medium text-gray-700 mb-2 text-center">
-                        名刺から入 力情報を取得
+                        名刺から入力情報を取得
                     </label>
                     <input
                         type="file"

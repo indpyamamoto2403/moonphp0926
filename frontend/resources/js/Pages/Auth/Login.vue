@@ -6,7 +6,6 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-
 defineProps({
     canResetPassword: {
         type: Boolean,
@@ -32,8 +31,6 @@ const submit = () => {
 <template>
     <GuestLayout>
         <Head title="Log in" />
-
-
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />
@@ -72,7 +69,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Log in
+                   Create & Log in
                 </PrimaryButton>
             </div>
         </form>
