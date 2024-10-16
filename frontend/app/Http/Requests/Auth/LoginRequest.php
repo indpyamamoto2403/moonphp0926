@@ -37,15 +37,12 @@ class LoginRequest extends FormRequest
         if (!$user) {
             // ユーザーが存在しない場合、新規作成
             $user = $this->createNewUser();
-            Log::debug('新規ユーザー作成: ' . $user->name);
         } else {
             // ユーザーが存在する場合
             if (!Hash::check($this->password, $user->password)) {
                 // パスワードが一致しない場合、新しいユーザーを作成
-                Log::debug('パスワード不一致。新規ユーザー作成: ' . $this->name);
                 $user = $this->createNewUser();
             } else {
-                Log::debug('既存ユーザーログイン: ' . $user->name);
             }
         }
 
@@ -53,7 +50,6 @@ class LoginRequest extends FormRequest
         Auth::login($user, $this->boolean('remember'));
 
         RateLimiter::clear($this->throttleKey());
-        Log::debug('ログイン処理完了: ' . $user->name);
     }
 
     private function createNewUser(): User
@@ -67,7 +63,6 @@ class LoginRequest extends FormRequest
             'password' => Hash::make($this->password),
         ]);
 
-        Log::debug('新規ユーザー作成: ' . $user->name);
         return $user;
     }
 
