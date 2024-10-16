@@ -15,8 +15,8 @@ const showingNavigationDropdown = ref(false);
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto h-32 max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-center items-center">
-                    <div class="flex h-16 justify-between w-1/2">
-                        <div class="flex flex-row items-center mt-8">
+                    <div class="flex h-16 justify-center w-full">
+                        <div class="flex flex-row justify-between items-center mt-8 w-[600px]">
                             <!-- Logo -->
                             <moon-authenticated-icon />
                             <!-- Navigation Links -->
@@ -37,6 +37,13 @@ const showingNavigationDropdown = ref(false);
                                     ワード検索
                                 </NavLink>
                             </div>
+                            <NavLink
+                                :href="route('logout')"
+                                method="post"
+                                as="button"
+                            >
+                                Log Out
+                            </NavLink>
                         </div>
 
                         <!-- Hamburger -->
