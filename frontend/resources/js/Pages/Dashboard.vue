@@ -134,62 +134,80 @@ async function handleExtract() {
 <template>
     <Head title="Dashboard" />
     <AuthenticatedLayout>
-        <div class="min-h-screen py-12 bg-black flex flex-col items-center">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <!-- 画像アップロードセクション -->
-                <div class="mt-10 bg-white p-6 shadow-lg rounded-lg w-full max-w-lg mx-auto">
-                    <label class="block text-lg font-medium text-gray-700 mb-2 text-center">
-                        名刺から入力情報を取得
-                    </label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        @change="handleImageUpload"
-                        class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer p-2 mb-4 focus:ring focus:ring-indigo-200 focus:outline-none"
-                    />
+            <div class="min-h-screen bg-black flex flex-col items-center mb-10">
+                <div class="w-full">
+                    <!-- 画像アップロードセクション -->
+                    <div class="mt-10 bg-white shadow-lg rounded-lg w-full max-w-lg mx-auto p-4">
+                        <label class="block text-lg font-medium text-gray-700 mb-2 text-center">
+                            名刺から入力情報を取得
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            @change="handleImageUpload"
+                            class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer p-2 mb-4 focus:ring focus:ring-indigo-200 focus:outline-none"
+                        />
 
-                    <!-- プレビュー -->
-                    <div v-if="selectedImage" class="mb-4">
-                        <img :src="selectedImage" alt="Uploaded image preview" class="w-full h-auto rounded-lg shadow-md" />
+                        <!-- プレビュー -->
+                        <div v-if="selectedImage" class="mb-4">
+                            <img :src="selectedImage" alt="Uploaded image preview" class="w-full h-auto rounded-lg shadow-md" />
+                        </div>
+
+                        <!-- 送信ボタン -->
+                        <button
+                            @click="handleSubmit"
+                            :disabled="loading"
+                            class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 disabled:opacity-50"
+                        >
+                            {{ loading ? '処理中...' : '📷' }}
+                        </button>
                     </div>
-
-                    <!-- 送信ボタン -->
-                    <button
-                        @click="handleSubmit"
-                        :disabled="loading"
-                        class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 disabled:opacity-50"
-                    >
-                        {{ loading ? '処理中...' : '📷' }}
-                    </button>
                 </div>
-            </div>
-            <div class="flex flex-col w-5/12 my-10 gap-y-4">
-                <input type="text" v-model="company_name" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="会社名" />
-                <input type="text" v-model="name" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="名前" />
-                <input type="text" v-model="birthday" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="生年月日" />
-                <input type="text" v-model="department" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="部署" />
-                <input type="text" v-model="position" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="役職" />
-                <input type="text" v-model="zip_code" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="郵便番号" />
-                <input type="text" v-model="company_location" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="会社所在地" />
-                <input type="text" v-model="URL" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="URL" />
-            </div>
-            
-            <!-- Extraction Button -->
-            <button
-                @click="handleExtract"
-                :disabled="loading"
-                class="w-50 py-1 px-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-200 disabled:opacity-50 mb-4"
-            >
-                {{ loading ? '処理中...' : '事業内容抽出' }}
-            </button>
-            <textarea v-model="jigyonaiyo" class="w-5/12 p-2 border border-gray-300 rounded-lg h-[200px] mb-4" placeholder="事業内容"></textarea>
+                <div class="flex flex-col w-full my-10 gap-y-4">
+                    <input type="text" v-model="company_name" class="input-text" placeholder="会社名" />
+                    <input type="text" v-model="name" class="input-text" placeholder="名前" />
+                    <input type="text" v-model="birthday" class="input-text" placeholder="生年月日" />
+                    <input type="text" v-model="department" class="input-text" placeholder="部署" />
+                    <input type="text" v-model="position" class="input-text" placeholder="役職" />
+                    <input type="text" v-model="zip_code" class="input-text" placeholder="郵便番号" />
+                    <input type="text" v-model="company_location" class="input-text" placeholder="会社所在地" />
+                    <input type="text" v-model="URL" class="input-text" placeholder="URL" />
+                </div>
+                
+                <!-- Extraction Button -->
+                <button
+                    @click="handleExtract"
+                    :disabled="loading"
+                    class="extract-button"
+                >
+                    {{ loading ? '処理中...' : '事業内容 抽出' }}
+                </button>
+                <textarea v-model="jigyonaiyo" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
 
-            <button
-                @click="window.location.href='/news'"
-                class="w-50 py-1 px-2 bg-cyan-600 text-white font-semibold rounded-lg shadow-md w-[200px] hover:bg-cyan-700 focus:outline-none focus:ring focus:ring-aqua-200"
-            >
-                登録
-            </button>
-        </div>
+                <button
+                    @click="window.location.href='/news'"
+                    class="register-button"
+                >
+                    登録
+                </button>
+            </div>
+
     </AuthenticatedLayout>
 </template>
+<style scoped>
+.input-text{
+    @apply bg-gray-700 w-full p-2 border border-gray-500 rounded-lg text-white placeholder-gray-500;
+}
+
+.jigyonaiyo-text{
+    @apply bg-gray-700 w-full p-2 border border-gray-500 rounded-lg text-white placeholder-gray-500 mb-10 h-[300px];
+}
+
+.extract-button{
+    @apply w-full py-1 px-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-200 disabled:opacity-50 mb-4
+}
+
+.register-button{
+    @apply w-full py-1 px-2 bg-cyan-600 text-white font-semibold rounded-lg shadow-md w-full hover:bg-cyan-700 focus:outline-none focus:ring focus:ring-cyan-200;
+}
+</style>
