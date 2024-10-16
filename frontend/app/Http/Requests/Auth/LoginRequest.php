@@ -22,23 +22,25 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
+            'login_name' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
 
     public function authenticate(): void
     {
-        Log::debug('ログイン処理開始');
+        Log::debug('ログイン処理開始' . $this->login_name);
         $this->ensureIsNotRateLimited();
 
-        $user = User::where('name', $this->name)->first();
+        $user = User::where('login_name', $this->login_name)->first();
 
         if (!$user) {
             // ユーザーが存在しない場合、新規作成
+            Log::debug('ユーザーが存在しないため新規作成');
             $user = $this->createNewUser();
         } else {
             // ユーザーが存在する場合
+            Log::debug('ユーザーが存在するためログイン処理');
             if (!Hash::check($this->password, $user->password)) {
                 // パスワードが一致しない場合、新しいユーザーを作成
                 $user = $this->createNewUser();
@@ -55,13 +57,15 @@ class LoginRequest extends FormRequest
     private function createNewUser(): User
     {
         // 新しいユーザー名を生成（既存の名前 + ランダムな文字列）
-        $newUsername = $this->name;
-        
+        $newLoginname = $this->login_name;
+        Log::debug('新しいユーザー名を生成' . $newLoginname);
         // 新しいユーザーを作成
         $user = User::create([
-            'name' => $newUsername,
+            'login_name' => $newLoginname,
             'password' => Hash::make($this->password),
         ]);
+        // 作成されたユーザーをログ出力
+        Log::debug('新しいユーザーが作成されました: ', ['user' => $user]);
 
         return $user;
     }
@@ -86,6 +90,6 @@ class LoginRequest extends FormRequest
 
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('name')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('login_name')).'|'.$this->ip());
     }
 }

@@ -2,6 +2,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\KeywordSearchController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
     Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
 
-    Route::get('/completed', [DashboardController::class, 'completed'])->name('completed');
+    Route::post('/dashboard', [DashboardController::class, 'completed'])->name('completed');
+    Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
 });
 require __DIR__.'/auth.php';

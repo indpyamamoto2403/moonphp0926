@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
 
 const selectedImage = ref(null);
@@ -17,8 +17,19 @@ const position = ref("");
 const zip_code = ref("");
 const company_location = ref("");
 const URL = ref("");
-
 const jigyonaiyo = ref("");
+
+const form = useForm({
+    name: '',
+    company_name: '',
+    department: '',
+    yakushoku: '',
+    company_zipcode: '',
+    company_address: '',
+    company_url: '',
+    company_overview: '',
+});
+
 
 //処理中かどうかを示す変数
 const loading = ref(false);
@@ -71,15 +82,14 @@ async function handleSubmit() {
                 // もしエスケープされていないJSONだった場合そのままパース
                 parsedData = JSON.parse(ocrData);
             }
-            ocr_result.value = parsedData;
-            company_name.value = parsedData.CompanyName;
-            name.value = parsedData.Name;
-            birthday.value = parsedData.Birthday;
-            department.value = parsedData.Department;
-            position.value = parsedData.Position;
-            zip_code.value = parsedData.ZipCode;
-            company_location.value = parsedData.CompanyLocation;
-            URL.value = parsedData.URL;
+            ocr_result.value = parsedData.OcrResult;
+            form.company_name.value = parsedData.CompanyName;
+            form.name.value = parsedData.Name;
+            form.department.value = parsedData.Department;
+            form.position.value = parsedData.Position;
+            form.zip_code.value = parsedData.ZipCode;
+            form.company_location.value = parsedData.CompanyLocation;
+            form.URL.value = parsedData.URL;
             // パース結果を確認
             console.log("Parsed data:", parsedData);
 
@@ -103,7 +113,6 @@ async function handleExtract() {
         const extractData = {
             company_name: company_name.value,
             name: name.value,
-            birthday: birthday.value,
             department: department.value,
             position: position.value,
             zip_code: zip_code.value,
@@ -118,7 +127,7 @@ async function handleExtract() {
                 },
             });
             console.log("Extraction response:", response.data);
-            jigyonaiyo.value = response.data.data.answer;
+            company_overview.value = response.data.data.answer;
             // Process response if needed
             console.log("Extracted response:", response.data);
         } catch (error) {
@@ -130,16 +139,34 @@ async function handleExtract() {
         alert('必要な情報を入力してください。');
     }
 }
+
+//登録ボタンを押したら、formの値を送信する
+const submit_items = () => {
+    const data = {
+        name: form.name,
+        company_name: form.company_name,
+        department: form.department,
+        yakushoku: form.yakushoku,
+        company_zipcode: form.company_zipcode,
+        company_address: form.company_address,
+        company_url: form.company_url,
+        company_overview: form.company_overview,
+    };
+    console.log("Submit data:", data);
+    // ここでデータを送信する処理を書く
+    form.post('/dashboard', data);
+};
+
 </script>
 <template>
     <Head title="登録画面" />
     <AuthenticatedLayout>
-            <div class="min-h-screen bg-black flex flex-col items-center mb-10">
+            <div class="min-h-screen bg-black flex flex-col items-center mb-10 text-sm">
                 <div class="w-full">
                     <!-- 画像アップロードセクション -->
                     <div class="mt-10 bg-white shadow-lg rounded-lg w-full max-w-lg mx-auto p-4">
-                        <label class="block text-lg font-medium text-gray-700 mb-2 text-center">
-                            名刺から入力情報を取得
+                        <label class="block text-sm font-medium text-gray-700 mb-2 text-center">
+                            名刺から情報を取得
                         </label>
                         <input
                             type="file"
@@ -159,19 +186,18 @@ async function handleExtract() {
                             :disabled="loading"
                             class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 disabled:opacity-50"
                         >
-                            {{ loading ? '処理中...' : '📷' }}
+                            {{ loading ? '処理中...' : '顧客情報の入力' }}
                         </button>
                     </div>
                 </div>
                 <div class="flex flex-col w-full my-10 gap-y-4">
-                    <input type="text" v-model="company_name" class="input-text" placeholder="会社名" />
-                    <input type="text" v-model="name" class="input-text" placeholder="名前" />
-                    <input type="text" v-model="birthday" class="input-text" placeholder="生年月日" />
-                    <input type="text" v-model="department" class="input-text" placeholder="部署" />
-                    <input type="text" v-model="position" class="input-text" placeholder="役職" />
-                    <input type="text" v-model="zip_code" class="input-text" placeholder="郵便番号" />
-                    <input type="text" v-model="company_location" class="input-text" placeholder="会社所在地" />
-                    <input type="text" v-model="URL" class="input-text" placeholder="URL" />
+                    <input type="text" v-model="form.company_name" class="input-text" placeholder="会社名" />
+                    <input type="text" v-model="form.name" class="input-text" placeholder="名前" />
+                    <input type="text" v-model="form.department" class="input-text" placeholder="部署" />
+                    <input type="text" v-model="form.yakushoku" class="input-text" placeholder="役職" />
+                    <input type="text" v-model="form.company_zipcode" class="input-text" placeholder="郵便番号" />
+                    <input type="text" v-model="form.company_address" class="input-text" placeholder="会社所在地" />
+                    <input type="text" v-model="form.company_url" class="input-text" placeholder="URL" />
                 </div>
                 
                 <!-- Extraction Button -->
@@ -182,12 +208,9 @@ async function handleExtract() {
                 >
                     {{ loading ? '処理中...' : '事業内容 抽出' }}
                 </button>
-                <textarea v-model="jigyonaiyo" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
+                <textarea v-model="form.company_overview" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
 
-                <button
-                    @click="window.location.href='/news'"
-                    class="register-button"
-                >
+                <button class="register-button" @click="submit_items">
                     登録
                 </button>
             </div>
@@ -196,7 +219,7 @@ async function handleExtract() {
 </template>
 <style scoped>
 .input-text{
-    @apply bg-gray-700 w-full p-2 border border-gray-500 rounded-lg text-white placeholder-gray-500;
+    @apply bg-gray-700 w-full p-3 border text-sm py-2 border-gray-500 rounded-lg text-white placeholder-gray-500;
 }
 
 .jigyonaiyo-text{
@@ -204,10 +227,10 @@ async function handleExtract() {
 }
 
 .extract-button{
-    @apply w-full py-1 px-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-200 disabled:opacity-50 mb-4
+    @apply w-full py-2 px-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-200 disabled:opacity-50 mb-4
 }
 
 .register-button{
-    @apply w-full py-1 px-2 bg-cyan-600 text-white font-semibold rounded-lg shadow-md w-full hover:bg-cyan-700 focus:outline-none focus:ring focus:ring-cyan-200;
+    @apply w-full py-2 px-2 bg-cyan-600 text-white font-semibold rounded-lg shadow-md w-full hover:bg-cyan-700 focus:outline-none focus:ring focus:ring-cyan-200;
 }
 </style>

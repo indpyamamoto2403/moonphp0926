@@ -31,8 +31,8 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
 
                                 <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
+                                    :href="route('keyword-search')"
+                                    :active="route().current('keyword-search')"
                                 >
                                     ワード検索
                                 </NavLink>
