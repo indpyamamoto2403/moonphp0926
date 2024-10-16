@@ -8,58 +8,72 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-     */
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'name' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
 
-    /**
-     * Attempt to authenticate the request's credentials.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function authenticate(): void
     {
+        Log::debug('ログイン処理開始');
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $user = User::where('name', $this->name)->first();
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        if (!$user) {
+            // ユーザーが存在しない場合、新規作成
+            $user = $this->createNewUser();
+            Log::debug('新規ユーザー作成: ' . $user->name);
+        } else {
+            // ユーザーが存在する場合
+            if (!Hash::check($this->password, $user->password)) {
+                // パスワードが一致しない場合、新しいユーザーを作成
+                Log::debug('パスワード不一致。新規ユーザー作成: ' . $this->name);
+                $user = $this->createNewUser();
+            } else {
+                Log::debug('既存ユーザーログイン: ' . $user->name);
+            }
         }
 
+        // ユーザーでログイン
+        Auth::login($user, $this->boolean('remember'));
+
         RateLimiter::clear($this->throttleKey());
+        Log::debug('ログイン処理完了: ' . $user->name);
     }
 
-    /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    private function createNewUser(): User
+    {
+        // 新しいユーザー名を生成（既存の名前 + ランダムな文字列）
+        $newUsername = $this->name;
+        
+        // 新しいユーザーを作成
+        $user = User::create([
+            'name' => $newUsername,
+            'password' => Hash::make($this->password),
+        ]);
+
+        Log::debug('新規ユーザー作成: ' . $user->name);
+        return $user;
+    }
+
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -68,18 +82,15 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
+            'name' => trans('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),
         ]);
     }
 
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('name')).'|'.$this->ip());
     }
 }
