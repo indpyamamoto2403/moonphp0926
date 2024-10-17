@@ -48,6 +48,18 @@ console.log("Customer data:", props.customer_data);
                     <span class="font-semibold text-left">会社概要: </span>
                     <p>{{ customer_data.company_overview }}</p>
                 </div>
+                <div class="section">
+                    <span class="font-semibold text-right">業種区分: </span>
+                    <p>{{ customer_data?.cluster?.industry_name }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">海外への関心: </span>
+                    <p>{{ customer_data?.preference?.foreign_interest }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">環境への興味: </span>
+                    <p>{{ customer_data?.preference?.environmental_concern }}</p>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>

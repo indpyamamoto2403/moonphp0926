@@ -3,7 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({
     message:String,
+    customer_data:Object,
 })
+
+console.log(props.customer_data);
 </script>
 
 <template>
@@ -19,6 +22,13 @@ const props = defineProps({
             </div>
             <div class="mt-4 text-center">
                 <span class="text-gray-400">クラスター情報: {{ message }}</span>
+            </div>
+            <div>
+                <ul class="text-white">
+                    <p>業種区分:{{ customer_data?.cluster?.industry_name }}</p>
+                    <p>海外への関心:{{ customer_data?.preference?.foreign_interest }}</p>
+                    <p>環境への興味:{{ customer_data?.preference?.environmental_concern }}</p>
+                </ul>
             </div>
         </div>
     </AuthenticatedLayout>

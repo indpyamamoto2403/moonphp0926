@@ -27,4 +27,16 @@ class UserPreference extends Model
     {
         return $this->belongsTo(MCluster::class, 'cluster_id', 'id');
     }
+
+    //海外への関心をありなしで返す
+    public function getForeignInterestAttribute($value)
+    {
+        return $value ? 'あり' : 'なし';
+    }
+
+    //環境への関心をありなしで返す
+    public function getEnvironmentalConcernAttribute($value)
+    {
+        return $value ? 'あり' : 'なし';
+    }
 }

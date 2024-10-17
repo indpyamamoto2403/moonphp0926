@@ -7,6 +7,7 @@ use App\Http\Requests\CustomerRequest;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\UserPreference;
 class CustomerController extends Controller
 {
@@ -61,7 +62,13 @@ class CustomerController extends Controller
             Log::error("API呼び出しエラー: " . $e->getMessage());
             return Inertia::render('Completed', ['message' => 'クラスター情報の取得に失敗しました。']);
         }
-    
-        return Inertia::render('Completed', ['message' => 'クラスターが更新されました。']);
+        
+        //クラスターとかを取得したデータ
+        $customer_data = User::with(['preference', 'cluster'])->find(Auth::user()->id);
+
+        return Inertia::render('Completed', [
+            'message' => 'クラスターが更新されました。',
+            'customer_data' => $customer_data
+        ]);
     } 
 }
