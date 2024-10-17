@@ -16,7 +16,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', [CustomerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/customer', [CustomerController::class, 'index'])->middleware(['auth', 'verified'])->name('customer');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
     Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
 
-    Route::post('/dashboard', [CustomerController::class, 'completed'])->name('completed');
+    Route::post('/customer/completed', [CustomerController::class, 'completed'])->name('completed');
     Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
 });
 require __DIR__.'/auth.php';

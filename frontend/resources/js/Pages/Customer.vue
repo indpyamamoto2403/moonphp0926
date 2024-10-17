@@ -146,7 +146,7 @@ const submit_items = () => {
     };
     console.log("Submit data:", data);
     // ここでデータを送信する処理を書く
-    form.post('/dashboard', data);
+    form.post('/customer', data);
 };
 
 </script>
