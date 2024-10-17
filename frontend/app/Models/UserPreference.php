@@ -21,4 +21,10 @@ class UserPreference extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // MClusterとのリレーション
+    public function cluster()
+    {
+        return $this->belongsTo(MCluster::class, 'cluster_id', 'id');
+    }
 }

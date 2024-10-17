@@ -50,4 +50,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserPreference::class);
     }
+    public function cluster()
+    {
+        return $this->hasOneThrough(MCluster::class, UserPreference::class, 'user_id', 'id', 'id', 'cluster_id');
+    }
 }

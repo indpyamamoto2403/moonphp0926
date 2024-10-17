@@ -80,7 +80,6 @@ class ImageUploadController extends Controller
         // URLが空の場合はテキストから抽出
         if (empty($url)) {
             // 検索キーワードの生成
-            Log::debug("seatch method: text");
             $keyword = $companyName . " " . $zipCode . " 事業内容";
             $response = $client->request('GET', 'http://192.168.0.23:5000/keyword_query', [
                 'query' => [
@@ -90,7 +89,6 @@ class ImageUploadController extends Controller
             ]);
         } else {
             // URLが指定されている場合はURLから抽出
-            Log::debug("seatch method: url");
             $response = $client->request('POST', 'http://192.168.0.23:5000/url_query', [
                 'headers' => [
                     'Accept' => 'application/json',
