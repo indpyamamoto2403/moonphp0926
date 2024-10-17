@@ -1,0 +1,75 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
+const props = defineProps({
+    customer_data: {
+        type: Object,
+    },
+})
+
+console.log("Customer data:", props.customer_data);
+</script>
+
+<template>
+    <AuthenticatedLayout>
+        <div class="min-h-screen bg-black text-white p-8 w-full">
+            <div class="space-y-4 max-w-lg mx-auto flex flex-col w-full">
+                <div class="section">
+                    <span class="font-semibold text-right">会社名: </span>
+                    <p>{{ customer_data.company_name }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">担当者名: </span>
+                    <p>{{ customer_data.name }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">部署: </span>
+                    <p>{{ customer_data.department }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">役職: </span>
+                    <p>{{ customer_data.yakushoku }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">郵便番号: </span>
+                    <p>{{ customer_data.company_zipcode }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">住所: </span>
+                    <p>{{ customer_data.company_address }}</p>
+                </div>
+                <div class="section">
+                    <span class="font-semibold text-right">URL: </span>
+                    <p>
+                        <a href="{{ customer_data.company_url }}" class="text-blue-400 underline hover:text-blue-600" target="_blank">{{ customer_data.company_url }}</a>
+                    </p>
+                </div>
+                <div class="section flex flex-col">
+                    <span class="font-semibold text-left">会社概要: </span>
+                    <p>{{ customer_data.company_overview }}</p>
+                </div>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>
+
+<style scoped>
+/* スクロールバーをカスタマイズして、背景色との調和を図ります */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #222;
+}
+
+.section {
+    @apply bg-gradient-to-r from-gray-600 to-gray-500 p-4 rounded-lg flex justify-between shadow-lg text-sm;
+}
+
+</style>

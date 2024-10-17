@@ -29,7 +29,12 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     USER 登録
                                 </NavLink>
-
+                                <NavLink
+                                    :href="route('customer-view')"
+                                    :active="route().current('customer-view')"
+                                >
+                                    USER 情報
+                                </NavLink>
                                 <NavLink
                                     :href="route('keyword-search')"
                                     :active="route().current('keyword-search')"

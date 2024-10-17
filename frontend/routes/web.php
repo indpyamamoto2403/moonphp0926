@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerViewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\KeywordSearchController;
@@ -28,6 +29,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
 
     Route::post('/customer/completed', [CustomerController::class, 'completed'])->name('completed');
+    //getでアクセスした場合、customerにリダイレクト
+    Route::get('/customer/completed', function () {
+        return redirect('/customer');
+    });
+    Route::get('/customer/view', [CustomerViewController::class, 'index'])->name('customer-view');
     Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
 });
 require __DIR__.'/auth.php';

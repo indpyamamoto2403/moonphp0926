@@ -146,7 +146,7 @@ const submit_items = () => {
     };
     console.log("Submit data:", data);
     // ここでデータを送信する処理を書く
-    form.post('/customer', data);
+    form.post('/customer/completed', data);
 };
 
 </script>
@@ -212,11 +212,11 @@ const submit_items = () => {
 </template>
 <style scoped>
 .input-text{
-    @apply bg-gray-700 w-full p-3 border text-sm py-2 border-gray-500 rounded-lg text-white placeholder-gray-500;
+    @apply w-full p-3 border text-sm py-2 bg-gradient-to-r from-gray-600 to-gray-500 rounded-lg text-white placeholder-gray-500;
 }
 
 .jigyonaiyo-text{
-    @apply bg-gray-700 w-full p-2 border border-gray-500 rounded-lg text-white placeholder-gray-500 mb-10 h-[300px];
+    @apply bg-gradient-to-r from-gray-600 to-gray-500 w-full p-2 border border-gray-500 rounded-lg text-white placeholder-gray-500 mb-10 h-[300px];
 }
 
 .extract-button{
