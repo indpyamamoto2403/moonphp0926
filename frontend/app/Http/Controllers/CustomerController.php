@@ -3,18 +3,19 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use App\Http\Requests\CustomerRequest;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use App\Models\User;
 
-class DashboardController extends Controller
+class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Customer');
     }
 
-    public function completed(Request $request)
+    public function completed(CustomerRequest $request)
     {
         Log::debug('Completed request', $request->all());
         // ユーザーを取得

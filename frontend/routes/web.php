@@ -1,5 +1,5 @@
 <?php
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\KeywordSearchController;
@@ -16,7 +16,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [CustomerController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
     Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
 
-    Route::post('/dashboard', [DashboardController::class, 'completed'])->name('completed');
+    Route::post('/dashboard', [CustomerController::class, 'completed'])->name('completed');
     Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
 });
 require __DIR__.'/auth.php';

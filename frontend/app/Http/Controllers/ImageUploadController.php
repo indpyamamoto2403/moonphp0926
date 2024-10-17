@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\CustomerRequest;
 
 class ImageUploadController extends Controller
 {
@@ -33,7 +34,7 @@ class ImageUploadController extends Controller
                 $multiLineString = <<<EOD
                 次の画像をOCR読み取りしてください。返答はJSON形式でお願いします。
                 以下の情報を取得してください。
-                Name, Birthday, CompanyName, Department, Position, ZipCode, CompanyLocation, URL
+                name, company_name, company_zipcode, company_address, yakushoku, department, company_url
                 EOD;
 
                 $response = $client->request('POST', 'http://192.168.0.23:5000/question_answer_by_image', [
@@ -59,7 +60,7 @@ class ImageUploadController extends Controller
         return response()->json(['message' => '画像がアップロードされませんでした。'], 400);
     }
 
-    public function extract(Request $request)
+    public function extract(CustomerRequest $request)
     {
         // テキスト情報の取得
         $companyName = $request->input('company_name');

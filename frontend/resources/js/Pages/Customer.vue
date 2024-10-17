@@ -9,16 +9,6 @@ const imageFile = ref(null);
 
 //ocr結果を格納する変数
 const ocr_result = ref("");
-const company_name = ref("");
-const name = ref("");
-const birthday = ref("");
-const department = ref("");
-const position = ref("");
-const zip_code = ref("");
-const company_location = ref("");
-const URL = ref("");
-const jigyonaiyo = ref("");
-
 const form = useForm({
     name: '',
     company_name: '',
@@ -82,14 +72,16 @@ async function handleSubmit() {
                 // もしエスケープされていないJSONだった場合そのままパース
                 parsedData = JSON.parse(ocrData);
             }
-            ocr_result.value = parsedData.OcrResult;
-            form.company_name.value = parsedData.CompanyName;
-            form.name.value = parsedData.Name;
-            form.department.value = parsedData.Department;
-            form.position.value = parsedData.Position;
-            form.zip_code.value = parsedData.ZipCode;
-            form.company_location.value = parsedData.CompanyLocation;
-            form.URL.value = parsedData.URL;
+
+            console.log("Parsed data:", JSON.stringify(parsedData, null, 2));
+
+            form.company_name = parsedData.company_name;
+            form.name = parsedData.name;
+            form.department = parsedData.department;
+            form.yakushoku = parsedData.yakushoku;
+            form.company_zipcode = parsedData.company_zipcode;
+            form.company_address = parsedData.company_address;
+            form.company_url = parsedData.company_url;
             // パース結果を確認
             console.log("Parsed data:", parsedData);
 
@@ -108,16 +100,16 @@ async function handleSubmit() {
 
 async function handleExtract() {
     // Ensure that the text fields contain data before proceeding
-    if (company_name.value || name.value || department.value || position.value || zip_code.value || company_location.value || URL.value) {
+    if (form.company_name) {
         loading.value = true;
         const extractData = {
-            company_name: company_name.value,
-            name: name.value,
-            department: department.value,
-            position: position.value,
-            zip_code: zip_code.value,
-            company_location: company_location.value,
-            URL: URL.value,
+            company_name: form.company_name,
+            name: form.name,
+            department: form.department,
+            yakushoku: form.yakushoku,
+            company_zipcode: form.company_zipcode,
+            company_address: form.company_address,
+            company_url: form.company_url,
         };
 
         try {
@@ -127,7 +119,7 @@ async function handleExtract() {
                 },
             });
             console.log("Extraction response:", response.data);
-            company_overview.value = response.data.data.answer;
+            form.company_overview = response.data.data.answer;
             // Process response if needed
             console.log("Extracted response:", response.data);
         } catch (error) {
@@ -136,7 +128,7 @@ async function handleExtract() {
             loading.value = false;
         }
     } else {
-        alert('必要な情報を入力してください。');
+        alert('会社名を入力してください。');
     }
 }
 
@@ -192,12 +184,14 @@ const submit_items = () => {
                 </div>
                 <div class="flex flex-col w-full my-10 gap-y-4">
                     <input type="text" v-model="form.company_name" class="input-text" placeholder="会社名" />
+                    <span v-if="form.errors?.company_name" class="text-red-600">{{ form.errors?.company_name }}</span>
                     <input type="text" v-model="form.name" class="input-text" placeholder="名前" />
                     <input type="text" v-model="form.department" class="input-text" placeholder="部署" />
                     <input type="text" v-model="form.yakushoku" class="input-text" placeholder="役職" />
                     <input type="text" v-model="form.company_zipcode" class="input-text" placeholder="郵便番号" />
                     <input type="text" v-model="form.company_address" class="input-text" placeholder="会社所在地" />
                     <input type="text" v-model="form.company_url" class="input-text" placeholder="URL" />
+                    <span v-if="form.errors?.company_name" class="text-red-600">{{ form.errors?.company_url }}</span>
                 </div>
                 
                 <!-- Extraction Button -->
@@ -209,7 +203,6 @@ const submit_items = () => {
                     {{ loading ? '処理中...' : '事業内容 抽出' }}
                 </button>
                 <textarea v-model="form.company_overview" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
-
                 <button class="register-button" @click="submit_items">
                     登録
                 </button>
