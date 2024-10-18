@@ -1,19 +1,21 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-
+import InfoIcon from '@/Components/InfoIcon.vue';
 const props = defineProps({
     customer_data: {
         type: Object,
     },
+    cluster: {
+        type: Object,
+    },
 })
 
-console.log("Customer data:", props.customer_data);
 </script>
 
 <template>
     <AuthenticatedLayout>
-        <div class="min-h-screen bg-black text-white p-8 w-full">
-            <div class="space-y-4 max-w-lg mx-auto flex flex-col w-full">
+        <div class="min-h-screen mt-12 text-white  mb-4 w-[600px]">
+            <div class="space-y-4 flex flex-col w-full">
                 <div class="section">
                     <span class="font-semibold text-right">会社名: </span>
                     <p>{{ customer_data.company_name }}</p>
@@ -49,7 +51,7 @@ console.log("Customer data:", props.customer_data);
                     <p>{{ customer_data.company_overview }}</p>
                 </div>
                 <div class="section">
-                    <span class="font-semibold text-right">業種区分: </span>
+                <span class="font-semibold text-right"><InfoIcon :cluster_data="cluster"/></span>
                     <p>{{ customer_data?.cluster?.industry_name }}</p>
                 </div>
                 <div class="section">

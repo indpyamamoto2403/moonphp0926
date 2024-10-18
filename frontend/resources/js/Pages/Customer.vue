@@ -153,10 +153,10 @@ const submit_items = () => {
 <template>
     <Head title="登録画面" />
     <AuthenticatedLayout>
-            <div class="min-h-screen bg-black flex flex-col items-center mb-10 text-sm">
+            <div class="min-h-screen bg-black flex flex-col items-center mb-10 text-sm w-[600px]">
                 <div class="w-full">
                     <!-- 画像アップロードセクション -->
-                    <div class="mt-10 bg-white shadow-lg rounded-lg w-full max-w-lg mx-auto p-4">
+                    <div class="mt-10 bg-white shadow-lg rounded-lg w-full mx-auto p-4">
                         <label class="block text-sm font-medium text-gray-700 mb-2 text-center">
                             名刺から情報を取得
                         </label>

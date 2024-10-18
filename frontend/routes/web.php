@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerViewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\KeywordSearchController;
+use App\Http\Controllers\ShowNewsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,5 +36,6 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/customer/view', [CustomerViewController::class, 'index'])->name('customer-view');
     Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
+    Route::post('/show-news', [ShowNewsController::class, 'index'])->name('show-news');
 });
 require __DIR__.'/auth.php';
