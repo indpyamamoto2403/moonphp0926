@@ -10,6 +10,9 @@ use App\Http\Requests\CustomerRequest;
 
 class ImageUploadController extends Controller
 {
+
+    protected $client_api_url = 'http://192.168.228.99:5000';
+
     public function upload(Request $request)
     {
         // バリデーション
@@ -21,7 +24,7 @@ class ImageUploadController extends Controller
             $originalName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images/uploaded', $originalName, 'public');
             
-            Log::debug($request->all());
+            Log::debug("Requested items: " . implode(', ', $request->all())); // ここを修正
 
             // OCR処理を行う
             $client = new Client();
@@ -37,7 +40,7 @@ class ImageUploadController extends Controller
                 name, company_name, company_zipcode, company_address, yakushoku, department, company_url
                 EOD;
 
-                $response = $client->request('POST', 'http://192.168.0.23:5000/question_answer_by_image', [
+                $response = $client->request('POST', $this->client_api_url . '/question_answer_by_image', [
                     'headers' => [
                         'Accept' => 'application/json',
                         'Content-Type' => 'application/json', // JSON形式で送信する場合
@@ -81,7 +84,7 @@ class ImageUploadController extends Controller
         if (empty($url)) {
             // 検索キーワードの生成
             $keyword = $companyName . " " . $zipCode . " 事業内容";
-            $response = $client->request('GET', 'http://192.168.0.23:5000/keyword_query', [
+            $response = $client->request('GET', $this->client_api_url . '/keyword_query', [
                 'query' => [
                     'keyword' => $keyword,
                     'prompt' => $prompt,
@@ -89,7 +92,7 @@ class ImageUploadController extends Controller
             ]);
         } else {
             // URLが指定されている場合はURLから抽出
-            $response = $client->request('POST', 'http://192.168.0.23:5000/url_query', [
+            $response = $client->request('POST', $this->client_api_url . '/url_query', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json', // JSON形式で送信する場合

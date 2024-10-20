@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\UserPreference;
 class CustomerController extends Controller
 {
+    protected $client_api_url = 'http:/192.168.228.99:5000';
+
     public function index(Request $request)
     {
         return Inertia::render('Customer');
@@ -36,7 +38,7 @@ class CustomerController extends Controller
         $sentence = "我々の会社は、金融業界で証券業務をサポートします。";
         try {
             // POSTリクエストを送信
-            $response = $client->request('POST', 'http://192.168.0.23:5000/get_cluster', [
+            $response = $client->request('POST', $this->client_api_url . '/get_cluster', [
                 'query' => ['sentence' => $sentence] // クエリパラメータとしてsentenceを送信
             ]);
             Log::debug("API FETCHED");
