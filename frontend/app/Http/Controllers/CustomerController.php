@@ -15,7 +15,10 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
-        return Inertia::render('Customer');
+        $user_data = User::with(['preference', 'cluster'])->find(Auth::user()->id);
+        return Inertia::render('Customer', [
+            'user_data' => $user_data
+        ]);
     }
 
     public function completed(CustomerRequest $request)

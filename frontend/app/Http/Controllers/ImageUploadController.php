@@ -24,14 +24,11 @@ class ImageUploadController extends Controller
             $originalName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('images/uploaded', $originalName, 'public');
             
-            Log::debug("Requested items: " . implode(', ', $request->all())); // ここを修正
-
             // OCR処理を行う
             $client = new Client();
             try {
                 // 画像をBase64エンコードする
                 $encodedImage = base64_encode(file_get_contents($request->file('image')->getPathname()));
-                Log::debug("Encoded image: $encodedImage");
 
                 // POSTリクエストを送信
                 $multiLineString = <<<EOD

@@ -6,18 +6,22 @@ import axios from 'axios';
 
 const selectedImage = ref(null);
 const imageFile = ref(null);
+const props = defineProps({
+    user_data: Object,
+})
 
+console.log("User data:", props.user_data);
 //ocr結果を格納する変数
 const ocr_result = ref("");
 const form = useForm({
-    name: '',
-    company_name: '',
-    department: '',
-    yakushoku: '',
-    company_zipcode: '',
-    company_address: '',
-    company_url: '',
-    company_overview: '',
+    name: props.user_data?.name || '',
+    company_name: props.user_data?.company_name || '',
+    department: props.user_data?.department || '',
+    yakushoku: props.user_data?.yakushoku || '',
+    company_zipcode: props.user_data?.company_zipcode || '',
+    company_address: props.user_data?.company_address || '',
+    company_url: props.user_data?.company_url || '',
+    company_overview: props.user_data?.company_overview || '',
 });
 
 

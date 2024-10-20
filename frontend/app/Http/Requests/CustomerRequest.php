@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 class CustomerRequest extends FormRequest
 {
     /**
@@ -18,6 +19,7 @@ class CustomerRequest extends FormRequest
      */
     public function rules(): array
     {
+        Log::debug(1);
         return [
             'name' => 'nullable|string|max:255', // 任意の入力
             'company_name' => 'required|string|max:255', // 必須項目
