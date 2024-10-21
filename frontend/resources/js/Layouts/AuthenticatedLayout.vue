@@ -51,6 +51,12 @@ const login_name = usePage().props.auth.user?.login_name;
                                 >
                                     ワード検索
                                 </NavLink>
+                                <NavLink
+                                    :href="route('favorited-news-list')"
+                                    :active="route().current('favorited-news-list')"
+                                >
+                                    お気に入りNews
+                                </NavLink>
                             </div>
                             <NavLink
                                 :href="route('logout')"

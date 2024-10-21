@@ -12,9 +12,18 @@ const props = defineProps({
 
 const hidden = ref(false);
 
-const handleGood = () => {
-    hidden.value = true;
-    // ここに後でGoodボタンの機能を追加
+const handleGood = async () => {
+    try {
+        const response = await axios.post('/api/push-favorite-to-search-news', {
+            instant_news_url: props.article.url, // instant_news_urlをPOSTデータに含める
+        });
+
+        console.log(response.data); // 成功した場合のレスポンスを表示
+        hidden.value = true; // ボタンが押された後に隠す
+
+    } catch (error) {
+        console.error('Error:', error); // エラー処理
+    }
 };
 
 const handleBad = () => {

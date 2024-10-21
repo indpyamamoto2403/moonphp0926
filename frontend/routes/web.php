@@ -6,6 +6,7 @@ use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\PushFavoriteToSearchNewsController;
 use App\Http\Controllers\KeywordSearchController;
 use App\Http\Controllers\ShowNewsController;
+use App\Http\Controllers\FavoritedNewsListController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,7 +30,7 @@ Route::middleware('auth')->group(function () {
     #api
     Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
     Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
-    Route::post('/api/push-favorite-to-search-news', [PushFavoriteToSearchNewsController::class, 'index']);
+    Route::post('/api/push-favorite-to-search-news', [PushFavoriteToSearchNewsController::class, 'index'])->name('push-favorite-to-search-news');
 
     Route::post('/customer/completed', [CustomerController::class, 'completed'])->name('completed');
     //getでアクセスした場合、customerにリダイレクト
@@ -39,5 +40,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/view', [CustomerViewController::class, 'index'])->name('customer-view');
     Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
     Route::post('/show-news', [ShowNewsController::class, 'index'])->name('show-news');
+    Route::get('/favorited-news-list', [FavoritedNewsListController::class, 'index'])->name('favorited-news-list');
 });
 require __DIR__.'/auth.php';
