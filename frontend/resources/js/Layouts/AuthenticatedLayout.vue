@@ -3,8 +3,16 @@ import { ref } from 'vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import MoonAuthenticatedIcon from '@/Components/MoonAuthenticatedIcon.vue';
-
+import { usePage } from '@inertiajs/vue3';
+import axios from 'axios';
 const showingNavigationDropdown = ref(false);
+
+const props = defineProps({
+    auth: {
+        type: Object,
+    },
+});
+const login_name = usePage().props.auth.user?.login_name;
 </script>
 
 <template>
@@ -15,7 +23,9 @@ const showingNavigationDropdown = ref(false);
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto h-32 max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+
                     <div class="flex h-16 justify-center w-full">
+
                         <div class="flex flex-row justify-between items-center mt-8 w-[600px]">
                             <!-- Logo -->
                             <moon-authenticated-icon />
@@ -93,7 +103,12 @@ const showingNavigationDropdown = ref(false);
                         </div>
                     </div>
                 </div>
-
+                <div class="text-white w-full flex justify-center items-center">
+                    <span class="w-[600px] flex justify-between">
+                        <span>-あなたのビジネスに光射す- </span>
+                        <span>{{ login_name  || "guest" }} 様</span>
+                    </span>
+                </div>
                 <!-- Responsive Navigation Menu -->
                 <div
                     :class="{

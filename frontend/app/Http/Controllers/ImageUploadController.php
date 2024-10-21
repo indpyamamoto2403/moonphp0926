@@ -34,7 +34,7 @@ class ImageUploadController extends Controller
                 $multiLineString = <<<EOD
                 次の画像をOCR読み取りしてください。返答はJSON形式でお願いします。
                 以下の情報を取得してください。
-                name, company_name, company_zipcode, company_address, yakushoku, department, company_url
+                name, age, company_name, company_zipcode, company_address, yakushoku, department, company_url
                 EOD;
 
                 $response = $client->request('POST', $this->client_api_url . '/question_answer_by_image', [

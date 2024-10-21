@@ -3,6 +3,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerViewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\PushFavoriteToSearchNewsController;
 use App\Http\Controllers\KeywordSearchController;
 use App\Http\Controllers\ShowNewsController;
 use Illuminate\Foundation\Application;
@@ -28,6 +29,7 @@ Route::middleware('auth')->group(function () {
     #api
     Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
     Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
+    Route::post('/api/push-favorite-to-search-news', [PushFavoriteToSearchNewsController::class, 'index']);
 
     Route::post('/customer/completed', [CustomerController::class, 'completed'])->name('completed');
     //getでアクセスした場合、customerにリダイレクト
