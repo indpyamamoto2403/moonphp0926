@@ -15,7 +15,7 @@ const hidden = ref(false);
 const handleGood = async () => {
     try {
         const response = await axios.post('/api/push-favorite-to-search-news', {
-            instant_news_url: props.article.url, // instant_news_urlをPOSTデータに含める
+            url: props.article.url, // instant_news_urlをPOSTデータに含める
         });
 
         console.log(response.data); // 成功した場合のレスポンスを表示

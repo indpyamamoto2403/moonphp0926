@@ -19,10 +19,12 @@ class KeywordSearch extends Model
         'keyword3',
         'user_id', // ここにuser_idを追加
         'combined_keyword',
-        'instant_news_url',
-        'instant_news_title',
-        'instant_news_origin',
-        'instant_news_summary',
+        'news_id',
         'is_favorite',
     ];
+
+    public function news()
+    {
+        return $this->hasOne(MNews::class, 'id', 'news_id');
+    }
 }

@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\KeywordSearchRequest;
 use App\Models\KeywordSearch;
+use App\Models\MNews;
 class ShowNewsController extends Controller
 {
     protected $client_api_url = 'http://192.168.0.23:5000';
@@ -31,21 +32,31 @@ class ShowNewsController extends Controller
             ]);      
     
             $data = json_decode($response->getBody()->getContents());
-
-            dd($data);
-
             //ニュースデータに格納
             if($data->output_dataset){
                 foreach($data->output_dataset as $news){
-                    $news_data[] = [
+
+                    $m_news = MNews::create([
                         'title' => $news->title,
                         'url' => $news->url,
-                        'published_at' => $news->published_at,
-                        'description' => $news->description,
-                        'image' => $news->image,
-                    ];
+                        'origin' => $news->origin,
+                        'summary' => $news->summary,
+                        'category_id' => 0,
+                    ]);
+
+                    $t_keyword_search = KeywordSearch::create([
+                        'user_id' => Auth::id(),
+                        'news_id' => $m_news->id,
+                        'keyword1' => $request->input('keyword1'),
+                        'keyword2' => $request->input('keyword2'),
+                        'keyword3' => $request->input('keyword3'),
+                        'combined_keyword' => $request->input('keyword1') . ' ' . $request->input('keyword2') . ' ' . $request->input('keyword3'),
+                        'is_favorite' => 0,
+                    ]);
                 }
             }
+
+            // ユーザーにニュースデータを返す
             return Inertia::render('ShowNews', [
                 'news_data' => $data
             ]);
@@ -61,5 +72,4 @@ class ShowNewsController extends Controller
             ]);
         }
     }
-    
 }

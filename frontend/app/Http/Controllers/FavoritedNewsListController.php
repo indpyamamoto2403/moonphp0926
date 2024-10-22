@@ -10,8 +10,12 @@ class FavoritedNewsListController extends Controller
 {
     public function index(request $request)
     {   
-        //favoriteされたニュースを全件取得
-        $favorited_data = KeywordSearch::where('is_favorite', 1)->get();
+        //favoriteされたニュースを全件取得→idで降順ソート
+        $favorited_data = KeywordSearch::with("news")
+                                         ->where('is_favorite', 1)
+                                         ->orderBy('id', 'desc')
+                                         ->get();
+                                         
         return Inertia::render('FavoritedNewsList',[
             'data' => $favorited_data
             ]);

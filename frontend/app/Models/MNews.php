@@ -10,10 +10,10 @@ class MNews extends Model
     use HasFactory;
     protected $table = 'm_news';
 
-    protected $fillable = [
-        'title',
-        'url',
-        'origin',
-        'summary',
-    ];
+    protected $guarded = [];
+    
+    public function keywordSearch()
+    {
+        return $this->belongsTo(KeywordSearch::class, 'news_id', 'id');
+    }
 }

@@ -9,12 +9,16 @@ use Illuminate\Support\Facades\Auth;
 class PushFavoriteToSearchNewsController extends Controller
 {
     public function index(Request $request) {
-        $instant_news_url = $request->input('instant_news_url');
+        $url = $request->input('url');
         $user_id = Auth::id(); // 認証されたユーザーのIDを取得
     
-        $keyword_search = KeywordSearch::where('instant_news_url', $instant_news_url)
-                                       ->where('user_id', $user_id) // user_idの条件を追加
-                                       ->first();
+        $keyword_search = KeywordSearch::with("news")
+        ->whereHas('news', function($query) use ($url) {
+                    $query->where('url', $url); // newsのURLでフィルタリング
+                })
+        ->where('user_id', $user_id)
+        ->first();
+
     
         if ($keyword_search) {
             $keyword_search->is_favorite = 1;

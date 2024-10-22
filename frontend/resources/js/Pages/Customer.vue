@@ -194,16 +194,38 @@ const submit_items = async () => {
                         </button>
                     </div>
                 </div>
-                <div class="flex flex-col w-full my-10 gap-y-4">
-                    <input type="text" v-model="form.company_name" class="input-text" placeholder="会社名" />
-                    <span v-if="form.errors?.company_name" class="text-red-600">{{ form.errors?.company_name }}</span>
-                    <input type="text" v-model="form.name" class="input-text" placeholder="名前" />
-                    <input type="text" v-model="form.department" class="input-text" placeholder="部署" />
-                    <input type="text" v-model="form.yakushoku" class="input-text" placeholder="役職" />
-                    <input type="text" v-model="form.company_zipcode" class="input-text" placeholder="郵便番号" />
-                    <input type="text" v-model="form.company_address" class="input-text" placeholder="会社所在地" />
-                    <input type="text" v-model="form.company_url" class="input-text" placeholder="URL" />
-                    <span v-if="form.errors?.company_name" class="text-red-600">{{ form.errors?.company_url }}</span>
+                <div class="flex flex-col w-full my-10 gap-y-3">
+                    <div>
+                        <label for="company_name" class="input-label">会社名</label>
+                        <input type="text" id="company_name" v-model="form.company_name" class="input-text" placeholder="会社名" />
+                        <span v-if="form.errors?.company_name" class="text-red-600">{{ form.errors?.company_name }}</span>
+                    </div>
+
+                    <div>
+                        <label for="name" class="input-label">名前</label>
+                        <input type="text" id="name" v-model="form.name" class="input-text" placeholder="名前" />
+                    </div>
+                    <div>
+                        <label for="department" class="input-label">部署</label>
+                        <input type="text" id="department" v-model="form.department" class="input-text" placeholder="部署" />
+                    </div>
+                    <div>
+                        <label for="yakushoku" class="input-label">役職</label>
+                        <input type="text" id="yakushoku" v-model="form.yakushoku" class="input-text" placeholder="役職" />
+                    </div>
+                    <div>
+                        <label for="company_zipcode" class="input-label">郵便番号</label>
+                        <input type="text" id="company_zipcode" v-model="form.company_zipcode" class="input-text" placeholder="郵便番号" />
+                    </div>
+                    <div>
+                        <label for="company_address" class="input-label">会社所在地</label>
+                        <input type="text" id="company_address" v-model="form.company_address" class="input-text" placeholder="会社所在地" />
+                    </div>
+                    <div>
+                        <label for="company_url" class="input-label">URL</label>
+                        <input type="text" id="company_url" v-model="form.company_url" class="input-text" placeholder="URL" />
+                        <span v-if="form.errors?.company_url" class="text-red-600">{{ form.errors?.company_url }}</span>
+                    </div>
                 </div>
                 
                 <!-- Extraction Button -->
@@ -214,7 +236,10 @@ const submit_items = async () => {
                 >
                     {{ loading ? '処理中...' : '事業内容 抽出' }}
                 </button>
+
                 <textarea v-model="form.company_overview" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
+
+                
                 <button
                     class="register-button"
                     @click="submit_items"
@@ -227,6 +252,11 @@ const submit_items = async () => {
     </AuthenticatedLayout>
 </template>
 <style scoped>
+
+.input-label{
+    @apply text-gray-200;
+}
+
 .input-text{
     @apply w-full p-3 border text-sm py-2 bg-gradient-to-r from-gray-600 to-gray-500 rounded-lg text-white placeholder-gray-500;
 }
