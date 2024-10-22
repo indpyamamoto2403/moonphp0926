@@ -10,8 +10,12 @@ use App\Http\Requests\CustomerRequest;
 
 class ImageUploadController extends Controller
 {
+    protected $client_api_url;
 
-    protected $client_api_url = 'http://192.168.0.23:5000';
+    public function __construct()
+    {
+        $this->client_api_url = env('FASTAPI_ENDPOINT');
+    }
 
     public function upload(Request $request)
     {

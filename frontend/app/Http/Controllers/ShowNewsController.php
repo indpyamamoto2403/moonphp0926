@@ -12,8 +12,11 @@ use App\Models\KeywordSearch;
 use App\Models\MNews;
 class ShowNewsController extends Controller
 {
-    protected $client_api_url = 'http://192.168.0.23:5000';
-
+    protected $client_api_url;
+    public function __construct()
+    {
+        $this->client_api_url = env('FASTAPI_ENDPOINT');
+    }
     public function index(KeywordSearchRequest $request)
     {
         $client = new Client();

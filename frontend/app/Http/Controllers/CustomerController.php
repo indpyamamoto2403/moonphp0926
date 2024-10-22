@@ -12,8 +12,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\UserPreference;
 class CustomerController extends Controller
 {
-    protected $client_api_url = 'http:/192.168.0.23:5000';
 
+    protected $client_api_url;
+    public function __construct()
+    {
+        $this->client_api_url = env('FASTAPI_ENDPOINT');
+    }
+    
     public function index(Request $request)
     {
         $user_data = User::with(['information','preference', 'cluster'])->find(Auth::user()->id);
