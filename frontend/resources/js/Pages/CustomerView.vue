@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InfoIcon from '@/Components/InfoIcon.vue';
+import { Link } from  '@inertiajs/vue3';
 const props = defineProps({
     customer_data: {
         type: Object,
@@ -54,7 +55,7 @@ const props = defineProps({
                     <p>{{ customer_data?.cluster?.industry_name }}</p>
                 </div>
                 <!-- 業種区分を変更するリンクへ飛ぶ -->
-                <a href="/customer/edit" class="text-left pl-2 text-xs hover:underline">業種区分を変更する</a>
+                <Link :href="route('change-user-industry')" class="text-left pl-2 text-xs hover:underline">業種区分を変更する</Link>
             </div>
         </div>
     </AuthenticatedLayout>
