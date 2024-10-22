@@ -6,7 +6,6 @@ const props = defineProps({
     customer_data:Object,
 })
 
-console.log(props.customer_data);
 </script>
 
 <template>

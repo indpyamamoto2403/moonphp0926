@@ -10,7 +10,6 @@ const props = defineProps({
     user_data: Object,
 })
 
-console.log("User data:", props.user_data);
 //ocr結果を格納する変数
 const ocr_result = ref("");
 const form = useForm({
@@ -52,14 +51,11 @@ async function handleSubmit() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log("Response:", response.data);
             // response.data.ocr_data の内容を確認
-            console.log("Original ocr_data:", response.data.ocr_data);
             
             const ocrData = response.data.ocr_data;
             // JSONとして問題がないか確認
             const isStringJson = ocrData.startsWith('"') && ocrData.endsWith('"');
-            console.log("Is JSON string:", isStringJson);
 
             let parsedData;
             if (isStringJson) {
@@ -77,7 +73,6 @@ async function handleSubmit() {
                 parsedData = JSON.parse(ocrData);
             }
 
-            console.log("Parsed data:", JSON.stringify(parsedData, null, 2));
 
             form.company_name = parsedData.company_name;
             form.name = parsedData.name;
@@ -87,7 +82,7 @@ async function handleSubmit() {
             form.company_address = parsedData.company_address;
             form.company_url = parsedData.company_url;
             // パース結果を確認
-            console.log("Parsed data:", parsedData);
+            ("Parsed data:", parsedData);
 
             // ocr_result に変換した JSON オブジェクトを表示
             ocr_result.value = JSON.stringify(parsedData, null, 2) || "OCR 結果が見つかりませんでした。";
@@ -122,10 +117,8 @@ async function handleExtract() {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log("Extraction response:", response.data);
             form.company_overview = response.data.data.answer;
             // Process response if needed
-            console.log("Extracted response:", response.data);
         } catch (error) {
             console.error('Error during extraction:', error);
         } finally {
@@ -149,7 +142,6 @@ const submit_items = async () => {
         company_url: form.company_url,
         company_overview: form.company_overview,
     };
-    console.log("Submit data:", data);
 
     try {
         // データ送信処理を書く
@@ -239,7 +231,7 @@ const submit_items = async () => {
 
                 <textarea v-model="form.company_overview" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
 
-                
+
                 <button
                     class="register-button"
                     @click="submit_items"
