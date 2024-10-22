@@ -25,8 +25,7 @@ const props = defineProps({
             <div>
                 <ul class="text-white">
                     <p>業種区分:{{ customer_data?.cluster?.industry_name }}</p>
-                    <p>海外への関心:{{ customer_data?.preference?.foreign_interest }}</p>
-                    <p>環境への興味:{{ customer_data?.preference?.environmental_concern }}</p>
+
                 </ul>
             </div>
         </div>

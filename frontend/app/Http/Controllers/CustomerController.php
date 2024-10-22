@@ -60,8 +60,6 @@ class CustomerController extends Controller
             $preference = UserPreference::firstOrNew([
                 'user_id' => $user->id,
                 'cluster_id' => $data['cluster_id'],
-                'foreign_interest' => $data['foreign_interest'],
-                'environmental_concern' => $data['environmental_concern'],
             ]);
             $preference->save();
         } else {

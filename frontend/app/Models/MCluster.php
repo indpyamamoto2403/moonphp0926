@@ -10,13 +10,7 @@ class MCluster extends Model
     use HasFactory;
 
     protected $table = 'm_cluster';
-
-    protected $fillable = [
-        'cluster_id',
-        'foreign_interest',
-        'environmental_concern',
-    ];
-
+    protected $guard = [];
     public $timestamps = true;
 
     // UserPreferenceとのリレーション

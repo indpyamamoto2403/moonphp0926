@@ -9,8 +9,6 @@ const props = defineProps({
         type: Object,
     },
 })
-
-console.log(props.customer_data);
 </script>
 
 <template>
@@ -55,6 +53,8 @@ console.log(props.customer_data);
                 <span class="font-semibold text-right"><InfoIcon :cluster_data="cluster"/></span>
                     <p>{{ customer_data?.cluster?.industry_name }}</p>
                 </div>
+                <!-- 業種区分を変更するリンクへ飛ぶ -->
+                <a href="/customer/edit" class="text-left pl-2 text-xs hover:underline">業種区分を変更する</a>
             </div>
         </div>
     </AuthenticatedLayout>

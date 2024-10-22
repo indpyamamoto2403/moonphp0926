@@ -1,12 +1,14 @@
 <?php
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerViewController;
+use App\Http\Controllers\UserNewsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\PushFavoriteToSearchNewsController;
 use App\Http\Controllers\KeywordSearchController;
 use App\Http\Controllers\ShowNewsController;
 use App\Http\Controllers\FavoritedNewsListController;
+use App\Http\Controllers\ChangeUserIndustryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,7 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/completed', function () {
         return redirect('/customer');
     });
+
     Route::get('/customer/view', [CustomerViewController::class, 'index'])->name('customer-view');
+    Route::get('/customer/news', [UserNewsController::class, 'index'])->name('customer-news');
+    Route::get('/customer/edit', [ChangeUserIndustryController::class, 'index'])->name('change-user-industry');
+    Route::post('/customer/edit/{cluster_id}', [ChangeUserIndustryController::class, 'edit'])->name('change-user-industry-edit');
     Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
     Route::post('/show-news', [ShowNewsController::class, 'index'])->name('show-news');
     Route::get('/favorited-news-list', [FavoritedNewsListController::class, 'index'])->name('favorited-news-list');

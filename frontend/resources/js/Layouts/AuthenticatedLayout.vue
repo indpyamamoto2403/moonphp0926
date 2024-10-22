@@ -46,6 +46,12 @@ const login_name = usePage().props.auth.user?.login_name;
                                     USER 情報
                                 </NavLink>
                                 <NavLink
+                                    :href="route('customer-news')"
+                                    :active="route().current('customer-news')"
+                                >
+                                    USER NEWS
+                                </NavLink>
+                                <NavLink
                                     :href="route('keyword-search')"
                                     :active="route().current('keyword-search')"
                                 >
@@ -55,7 +61,7 @@ const login_name = usePage().props.auth.user?.login_name;
                                     :href="route('favorited-news-list')"
                                     :active="route().current('favorited-news-list')"
                                 >
-                                    お気に入りNews
+                                    お気に入り
                                 </NavLink>
                             </div>
                             <NavLink

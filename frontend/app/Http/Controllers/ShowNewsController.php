@@ -41,6 +41,7 @@ class ShowNewsController extends Controller
                         'url' => $news->url,
                         'origin' => $news->origin,
                         'summary' => $news->summary,
+                        'searched_by_keyword' => 1,
                         'category_id' => 0,
                     ]);
 
