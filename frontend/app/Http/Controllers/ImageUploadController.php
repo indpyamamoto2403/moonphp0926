@@ -11,7 +11,7 @@ use App\Http\Requests\CustomerRequest;
 class ImageUploadController extends Controller
 {
 
-    protected $client_api_url = 'http://192.168.228.99:5000';
+    protected $client_api_url = 'http://192.168.0.23:5000';
 
     public function upload(Request $request)
     {
@@ -69,7 +69,7 @@ class ImageUploadController extends Controller
         $position = $request->input('position');
         $zipCode = $request->input('zip_code');
         $companyLocation = $request->input('company_location');
-        $url = $request->input('URL');
+        $url = $request->input('company_url');
 
         $client = new Client();
         $prompt = <<<EOD

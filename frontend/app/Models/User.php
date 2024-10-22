@@ -46,6 +46,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function information()
+    {
+        return $this->hasOne(UserInformation::class);
+    }
+
     public function preference()
     {
         return $this->hasOne(UserPreference::class);

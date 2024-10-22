@@ -12,7 +12,7 @@ class CustomerViewController extends Controller
     public function index()
     {
         // ログイン中のユーザー情報を取得
-        $user = User::with(['preference', 'cluster'])->find(Auth::user()->id);
+        $user = User::with(['information','preference', 'cluster'])->find(Auth::user()->id);
         $cluster = MCluster::all();
         // Inertiaでビューをレンダリングし、ユーザー情報を渡す
         return Inertia::render('CustomerView', [

@@ -32,24 +32,20 @@ class ShowNewsController extends Controller
     
             $data = json_decode($response->getBody()->getContents());
 
-            // APIレスポンスデータをループして、KeywordSearchに挿入
-            if (!empty($data->output_dataset)) {
-                foreach ($data->output_dataset as $newsItem) {
-                    KeywordSearch::create([
-                        'keyword1' => $request->input('keyword1'),
-                        'keyword2' => $request->input('keyword2'),
-                        'keyword3' => $request->input('keyword3'),
-                        'combined_keyword' => $request->input('keyword1') . ' ' . $request->input('keyword2') . ' ' . $request->input('keyword3'),
-                        'user_id' => Auth::user()->id ?? 1, // 現在のユーザーIDを取得して挿入
-                        'instant_news_url' => $newsItem->url ?? null, // APIからのニュースURL
-                        'instant_news_title' => $newsItem->title ?? null, // APIからのニュースタイトル
-                        'instant_news_origin' => $newsItem->origin ?? null, // APIからのニュースオリジン
-                        'instant_news_summary' => $newsItem->summary ?? null, // APIからのニュース要約
-                        'is_favorite' => false, // 初期値はfalseに設定
-                    ]);
+            dd($data);
+
+            //ニュースデータに格納
+            if($data->output_dataset){
+                foreach($data->output_dataset as $news){
+                    $news_data[] = [
+                        'title' => $news->title,
+                        'url' => $news->url,
+                        'published_at' => $news->published_at,
+                        'description' => $news->description,
+                        'image' => $news->image,
+                    ];
                 }
             }
-
             return Inertia::render('ShowNews', [
                 'news_data' => $data
             ]);

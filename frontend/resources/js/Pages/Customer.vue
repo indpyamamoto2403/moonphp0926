@@ -14,14 +14,14 @@ console.log("User data:", props.user_data);
 //ocr結果を格納する変数
 const ocr_result = ref("");
 const form = useForm({
-    name: props.user_data?.name || '',
-    company_name: props.user_data?.company_name || '',
-    department: props.user_data?.department || '',
-    yakushoku: props.user_data?.yakushoku || '',
-    company_zipcode: props.user_data?.company_zipcode || '',
-    company_address: props.user_data?.company_address || '',
-    company_url: props.user_data?.company_url || '',
-    company_overview: props.user_data?.company_overview || '',
+    name: props.user_data?.information?.name || '',
+    company_name: props.user_data?.information?.company_name || '',
+    department: props.user_data?.information?.department || '',
+    yakushoku: props.user_data?.information?.yakushoku || '',
+    company_zipcode: props.user_data?.information?.company_zipcode || '',
+    company_address: props.user_data?.information?.company_address || '',
+    company_url: props.user_data?.information?.company_url || '',
+    company_overview: props.user_data?.information?.company_overview || '',
 });
 
 
@@ -137,7 +137,8 @@ async function handleExtract() {
 }
 
 //登録ボタンを押したら、formの値を送信する
-const submit_items = () => {
+const submit_items = async () => {
+    loading.value = true; // 送信前にローディング状態にする
     const data = {
         name: form.name,
         company_name: form.company_name,
@@ -149,8 +150,15 @@ const submit_items = () => {
         company_overview: form.company_overview,
     };
     console.log("Submit data:", data);
-    // ここでデータを送信する処理を書く
-    form.post('/customer/completed', data);
+
+    try {
+        // データ送信処理を書く
+        await form.post('/customer/completed', data);
+    } catch (error) {
+        console.error('Submission error:', error);
+    } finally {
+        loading.value = false; // 送信完了後にローディング状態を解除
+    }
 };
 
 </script>
@@ -207,8 +215,12 @@ const submit_items = () => {
                     {{ loading ? '処理中...' : '事業内容 抽出' }}
                 </button>
                 <textarea v-model="form.company_overview" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
-                <button class="register-button" @click="submit_items">
-                    登録
+                <button
+                    class="register-button"
+                    @click="submit_items"
+                    :disabled="loading"
+                >
+                    {{ loading ? '処理中...' : '登録' }}
                 </button>
             </div>
 

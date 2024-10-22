@@ -10,6 +10,7 @@ const props = defineProps({
     },
 })
 
+console.log(props.customer_data);
 </script>
 
 <template>
@@ -18,37 +19,37 @@ const props = defineProps({
             <div class="space-y-4 flex flex-col w-full">
                 <div class="section">
                     <span class="font-semibold text-right">会社名: </span>
-                    <p>{{ customer_data.company_name }}</p>
+                    <p>{{ customer_data?.information?.company_name }}</p>
                 </div>
                 <div class="section">
                     <span class="font-semibold text-right">担当者名: </span>
-                    <p>{{ customer_data.name }}</p>
+                    <p>{{ customer_data?.information?.name }}</p>
                 </div>
                 <div class="section">
                     <span class="font-semibold text-right">部署: </span>
-                    <p>{{ customer_data.department }}</p>
+                    <p>{{ customer_data?.information?.department }}</p>
                 </div>
                 <div class="section">
                     <span class="font-semibold text-right">役職: </span>
-                    <p>{{ customer_data.yakushoku }}</p>
+                    <p>{{ customer_data?.information?.yakushoku }}</p>
                 </div>
                 <div class="section">
                     <span class="font-semibold text-right">郵便番号: </span>
-                    <p>{{ customer_data.company_zipcode }}</p>
+                    <p>{{ customer_data?.information?.company_zipcode }}</p>
                 </div>
                 <div class="section">
                     <span class="font-semibold text-right">住所: </span>
-                    <p>{{ customer_data.company_address }}</p>
+                    <p>{{ customer_data?.information?.company_address }}</p>
                 </div>
                 <div class="section">
                     <span class="font-semibold text-right">URL: </span>
                     <p>
-                        <a href="{{ customer_data.company_url }}" class="text-blue-400 underline hover:text-blue-600" target="_blank">{{ customer_data.company_url }}</a>
+                        <a href="{{ customer_data?.information?.company_url }}" class="text-blue-400 underline hover:text-blue-600" target="_blank">{{ customer_data?.information?.company_url }}</a>
                     </p>
                 </div>
                 <div class="section flex flex-col">
                     <span class="font-semibold text-left">会社概要: </span>
-                    <p>{{ customer_data.company_overview }}</p>
+                    <p>{{ customer_data?.information?.company_overview }}</p>
                 </div>
                 <div class="section">
                 <span class="font-semibold text-right"><InfoIcon :cluster_data="cluster"/></span>
