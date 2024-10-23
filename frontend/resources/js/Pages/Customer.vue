@@ -241,7 +241,7 @@ const submit_items = async () => {
                     @click="submit_items"
                     :disabled="loading"
                 >
-                    {{ loading ? '処理中...' : '登録' }}
+                    {{ loading ? '処理中...' : '登録/更新' }}
                 </button>
             </div>
 

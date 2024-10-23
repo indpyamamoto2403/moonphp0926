@@ -20,7 +20,7 @@ console.log(props);
                 <div class="mt-4">
                     <ul>
                         <li v-for="(item, index) in props?.favorited_news" :key="index" class="mb-4 p-4 bg-gray-700 rounded">
-                            <h2 class="text-xl font-semibold">{{ item?.news?.title }}</h2>
+                            <h2 class="text-xl font-semibold mb-2">{{ item?.news?.title }}</h2>
                             <p class="text-sm">{{ item?.news?.summary }}</p>
                             <a :href="item?.news?.url" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">記事を読む</a>
                         </li>
