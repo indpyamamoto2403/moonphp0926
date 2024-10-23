@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/upload-image', [ImageUploadController::class, 'upload']);
     Route::post('/api/extract-text', [ImageUploadController::class, 'extract']);
     Route::post('/api/push-favorite-to-search-news', [PushFavoriteToSearchNewsController::class, 'index'])->name('push-favorite-to-search-news');
+    Route::post('/api/push-unfavorite-to-search-news', [PushFavoriteToSearchNewsController::class, 'reverse'])->name('push-unfavorite-to-search-news');
+    Route::post('/api/push-neutral-to-search-news', [PushFavoriteToSearchNewsController::class, 'neutral'])->name('push-neutral-to-search-news');
 
     Route::post('/customer/completed', [CustomerController::class, 'completed'])->name('completed');
     //getでアクセスした場合、customerにリダイレクト

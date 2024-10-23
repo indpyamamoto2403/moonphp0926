@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\KeywordSearchRequest;
 use App\Models\KeywordSearch;
 use App\Models\MNews;
+use App\Models\ViewedNews;
 class ShowNewsController extends Controller
 {
     protected $client_api_url;
@@ -46,6 +47,12 @@ class ShowNewsController extends Controller
                         'summary' => $news->summary,
                         'searched_by_keyword' => 1,
                         'category_id' => 0,
+                    ]);
+
+                    //ビューテーブルにも格納
+                    $viewed_news = ViewedNews::create([
+                        'user_id' => Auth::id(),
+                        'news_id' => $m_news->id,
                     ]);
 
                     $t_keyword_search = KeywordSearch::create([

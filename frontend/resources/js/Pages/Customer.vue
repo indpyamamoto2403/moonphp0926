@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
-
+import HelpTooltip from '@/Atoms/HelpTooltip.vue';
 const selectedImage = ref(null);
 const imageFile = ref(null);
 const props = defineProps({
@@ -186,7 +186,7 @@ const submit_items = async () => {
                         </button>
                     </div>
                 </div>
-                <div class="flex flex-col w-full my-10 gap-y-3">
+                <div class="flex flex-col w-full mt-8 mb-4 gap-y-3">
                     <div>
                         <label for="company_name" class="input-label">会社名</label>
                         <input type="text" id="company_name" v-model="form.company_name" class="input-text" placeholder="会社名" />
@@ -221,6 +221,9 @@ const submit_items = async () => {
                 </div>
                 
                 <!-- Extraction Button -->
+                <div class="w-full text-left">
+                    <span class="text-white">事業内容の抽出 <HelpTooltip/></span>
+                </div>
                 <button
                     @click="handleExtract"
                     :disabled="loading"
@@ -230,8 +233,6 @@ const submit_items = async () => {
                 </button>
 
                 <textarea v-model="form.company_overview" class="jigyonaiyo-text" placeholder="事業内容"></textarea>
-
-
                 <button
                     class="register-button"
                     @click="submit_items"

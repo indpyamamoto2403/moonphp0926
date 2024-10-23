@@ -26,9 +26,18 @@ const handleGood = async () => {
     }
 };
 
-const handleBad = () => {
-    hidden.value = true;
-    // ここに後でBadボタンの機能を追加
+const handleBad = async () => {
+    try {
+        const response = await axios.post('/api/push-unfavorite-to-search-news', {
+            url: props.article.url, // instant_news_urlをPOSTデータに含める
+        });
+
+        console.log(response.data); // 成功した場合のレスポンスを表示
+        hidden.value = true; // ボタンが押された後に隠す
+
+    } catch (error) {
+        console.error('Error:', error); // エラー処理
+    }
 };
 
 const handleClose = () => {
@@ -36,7 +45,6 @@ const handleClose = () => {
 };
 
 
-console.log(props.article);
 </script>
 
 <template>

@@ -5,6 +5,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 const props = defineProps({
     data: Array // dataは配列として受け取る
 });
+
+console.log(props.data);
 </script>
 
 <template>

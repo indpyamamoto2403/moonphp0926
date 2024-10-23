@@ -16,4 +16,9 @@ class MNews extends Model
     {
         return $this->belongsTo(KeywordSearch::class, 'news_id', 'id');
     }
+
+    public function viewedNews()
+    {
+        return $this->belongsTo(ViewedNews::class, 'news_id', 'id');
+    }
 }
