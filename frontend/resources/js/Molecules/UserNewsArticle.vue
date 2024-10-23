@@ -13,7 +13,7 @@ const props = defineProps({
             <span class="text-gray-200">{{ item.summary }}</span>
         </div>
         <div class="mt-4 text-left w-full">
-            <a :href="item.url" target="_blank" class="text-blue-400 underline">
+            <a :href="item.url" target="_blank" class="text-blue-400 underline break-all">
                 {{ item.url }}
             </a>
         </div>

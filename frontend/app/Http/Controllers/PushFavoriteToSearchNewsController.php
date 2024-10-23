@@ -10,17 +10,20 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ViewedNews;
 use App\Models\FavoriteNews;
 use App\Models\UnfavoriteNews;
+use App\Models\UserPreference;
 use App\Models\MNews;
 
 class PushFavoriteToSearchNewsController extends Controller
 {
     protected $news_id;
+    protected $cluster_id;
     protected $user_id;
 
     public function __construct(Request $request)
     {
         //インプットされたキーからニュースIDを取得
         $this->news_id = MNews::where('url',$request->input('url'))->first()->id;
+        $this->cluster_id = UserPreference::where('user_id', Auth::id())->first()->cluster_id;
         $this->user_id = Auth::id(); // 認証されたユーザーのIDを取得
 
     }
@@ -29,6 +32,7 @@ class PushFavoriteToSearchNewsController extends Controller
         $this->_sweep($request);
         $favorite_news = FavoriteNews::create([
             'user_id' => $this->user_id,
+            'cluster_id' => $this->cluster_id,
             'news_id' => $this->news_id,
         ]);
         return response()->json();
@@ -37,6 +41,7 @@ class PushFavoriteToSearchNewsController extends Controller
         $this->_sweep($request);
         $unfavorite_news = UnfavoriteNews::create([
             'user_id' => $this->user_id,
+            'cluster_id' => $this->cluster_id,
             'news_id' => $this->news_id,
         ]);
         return response()->json();

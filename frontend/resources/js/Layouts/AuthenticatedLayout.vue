@@ -31,25 +31,25 @@ const login_name = usePage().props.auth.user?.login_name;
                             <moon-authenticated-icon />
                             <!-- Navigation Links -->
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-yellow-300"
+                                class="hidden space-x-1 sm:-my-px sm:ms-10 sm:flex text-yellow-300"
                             >
                                 <NavLink
                                     :href="route('customer')"
                                     :active="route().current('customer')"
                                 >
-                                    USER 登録
+                                    User登録
                                 </NavLink>
                                 <NavLink
                                     :href="route('customer-view')"
                                     :active="route().current('customer-view')"
                                 >
-                                    USER 情報
+                                    User情報
                                 </NavLink>
                                 <NavLink
                                     :href="route('customer-news')"
                                     :active="route().current('customer-news')"
                                 >
-                                    USER NEWS
+                                    UserNews
                                 </NavLink>
                                 <NavLink
                                     :href="route('keyword-search')"
@@ -117,7 +117,7 @@ const login_name = usePage().props.auth.user?.login_name;
                 </div>
                 <div class="text-white w-full flex justify-center items-center">
                     <span class="w-[600px] flex justify-between">
-                        <span>-あなたのビジネスに光射す- </span>
+                        <span class="hover:text-yellow-200 hover:cursor-crosshair transition duration-500">-あなたのビジネスに光射す- </span>
                         <span>{{ login_name  || "guest" }} 様</span>
                     </span>
                 </div>

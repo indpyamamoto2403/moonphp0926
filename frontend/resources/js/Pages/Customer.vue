@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
 import HelpTooltip from '@/Atoms/HelpTooltip.vue';
+import Spinner from '@/Atoms/Spinner.vue';
 const selectedImage = ref(null);
 const imageFile = ref(null);
 const props = defineProps({
@@ -156,6 +157,8 @@ const submit_items = async () => {
 </script>
 <template>
     <Head title="登録画面" />
+
+    <Spinner :show="loading" />
     <AuthenticatedLayout>
             <div class="min-h-screen bg-black flex flex-col items-center mb-10 text-sm w-[600px]">
                 <div class="w-full">

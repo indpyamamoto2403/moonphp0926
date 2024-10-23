@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InfoIcon from '@/Components/InfoIcon.vue';
 import { Link } from  '@inertiajs/vue3';
+import Spinner from '@/Atoms/Spinner.vue';
 const props = defineProps({
     customer_data: {
         type: Object,
