@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/customer/edit/{cluster_id}', [ChangeUserIndustryController::class, 'edit'])->name('change-user-industry-edit');
     Route::get('/keyword-search', [KeywordSearchController::class, 'index'])->name('keyword-search');
     Route::post('/show-news', [ShowNewsController::class, 'index'])->name('show-news');
+    Route::post('/show-news-by-url', [ShowNewsController::class, 'url'])->name('show-news-by-url');
     Route::get('/favorited-news-list', [FavoritedNewsListController::class, 'index'])->name('favorited-news-list');
 });
 require __DIR__.'/auth.php';

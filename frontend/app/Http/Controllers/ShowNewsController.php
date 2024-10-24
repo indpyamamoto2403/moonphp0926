@@ -83,4 +83,69 @@ class ShowNewsController extends Controller
             ]);
         }
     }
+
+    public function url(Request $request){
+        $url = $request->input('url');
+        Log::debug($url);
+        $client = new Client();
+        try {
+            $response = $client->request('POST', $this->client_api_url . '/url_query', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                ],
+                'query' => [
+                    'url' => $url,
+                    'prompt' => '以下のニュースを要約してください。',
+                ],
+            ]);      
+    
+            $data = json_decode($response->getBody()->getContents());
+            //ニュースデータに格納
+            // if($data->output_dataset){
+            //     foreach($data->output_dataset as $news){
+
+                    //ニューステーブルには追加しない
+                    // $m_news = MNews::create([
+                    //     'title' => $news->title,
+                    //     'url' => $news->url,
+                    //     'origin' => $news->origin,
+                    //     'summary' => $news->summary,
+                    //     'searched_by_keyword' => 0,
+                    //     'category_id' => 0,
+                    // ]);
+
+                    //ビューテーブルにも格納
+                    // $viewed_news = ViewedNews::create([
+                    //     'user_id' => Auth::id(),
+                    //     'news_id' => $m_news->id,
+                    // ]);
+
+                    // $t_keyword_search = KeywordSearch::create([
+                    //     'user_id' => Auth::id(),
+                    //     'news_id' => $m_news->id,
+                    //     'keyword1' => '',
+                    //     'keyword2' => '',
+                    //     'keyword3' => '',
+                    //     'combined_keyword' => '',
+                    //     'is_favorite' => 0,
+                    // ]);
+            //     }
+            // }
+            // ユーザーにニュースデータを返す
+            return Inertia::render('URLSearch', [
+                'news_data' => $data
+            ]);
+            
+        } catch (\Exception $e) {
+            // エラーログを記録
+            Log::error('API call failed: ' . $e->getMessage());
+    
+            // ユーザーにエラーメッセージを返す
+            return Inertia::render('KeywordSearch', [
+                'news_data' => null,
+                'error' => 'ニュースの取得中にエラーが発生しました。しばらくしてから再試行してください。',
+            ]);
+        }
+    }
 }
