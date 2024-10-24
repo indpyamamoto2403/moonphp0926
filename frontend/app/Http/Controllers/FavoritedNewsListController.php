@@ -15,7 +15,6 @@ class FavoritedNewsListController extends Controller
     public function index(request $request)
     {
         $cluster_id = UserPreference::where('user_id', $request->user()->id)->value('cluster_id');
-        Log::debug('cluster_id:'.$cluster_id);   
         //favoriteされたニュースを全件取得→idで降順ソート
         $favorited_news = FavoriteNews::with("news")
                                          ->where('user_id', $request->user()->id)
@@ -27,7 +26,8 @@ class FavoritedNewsListController extends Controller
                             ->where('user_id', '!=', $request->user()->id)
                             ->where('cluster_id', $cluster_id)
                             ->orderBy('id', 'desc')
-                            ->get();                               
+                            ->get();
+                                                           
         return Inertia::render('FavoritedNewsList',[
             'favorited_news' => $favorited_news,
             'recommended_news' => $recommended_news,

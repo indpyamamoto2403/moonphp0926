@@ -27,6 +27,7 @@ class ChangeUserIndustryController extends Controller
         $user = User::find(Auth::id());
         $userPreference = UserPreference::where('user_id', Auth::id())->first();
         
+        
         if (!$userPreference) {
             $userPreference = new UserPreference();
             $userPreference->user_id = Auth::id();

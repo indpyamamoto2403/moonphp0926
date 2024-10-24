@@ -29,13 +29,8 @@ class CustomerController extends Controller
 
     public function completed(CustomerRequest $request)
     {
-        Log::debug('Completed request', $request->all());
-        // ユーザーを取得
         $user = User::find($request->user()->id);
-
-        // ユーザー情報を取得または新規作成
         $userInformation = UserInformation::firstOrNew(['user_id' => $user->id]);
-
         // UserInformationに属性を更新
         $userInformation->company_name = $request->company_name;
         $userInformation->name = $request->name;
@@ -45,11 +40,8 @@ class CustomerController extends Controller
         $userInformation->company_url = $request->company_url;
         $userInformation->company_overview = $request->company_overview;
         $userInformation->save();
-
     
-    // クライアントを作成
-    $client = new Client();
-
+        $client = new Client();
     try {
         // POSTリクエストを送信
         $response = $client->request('POST', $this->client_api_url . '/get_cluster', [
