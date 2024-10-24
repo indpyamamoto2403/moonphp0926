@@ -47,7 +47,7 @@ console.log(props);
                     <button v-if="props.favorited_news.length > displayedFavoritedNews" @click="showMoreFavorited" class="text-blue-400 underline mt-2">さらに表示</button>
                 </div>
 
-                <div class="flex flex-col justify-center items-center mt-6">
+                <div v-if="recommended_news.length>0" class="flex flex-col justify-center items-center mt-6">
                     <p class="text-2xl font-bold">おすすめニュース一覧</p>
                     <p class="text-red-100 text-right">🌟あなたと同じ業種の、他のユーザーは</p>
                     <p class="text-red-100 text-right">こんな記事も読んでいます。</p>
