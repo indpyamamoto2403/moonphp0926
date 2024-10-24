@@ -42,30 +42,36 @@ class CustomerController extends Controller
         $userInformation->save();
     
         $client = new Client();
-    try {
-        // POSTリクエストを送信
-        $response = $client->request('POST', $this->client_api_url . '/get_cluster', [
-            'query' => ['sentence' => $userInformation->company_overview] // クエリパラメータとしてcompany_overviewを送信
-        ]);
+        try {
+            // POSTリクエストを送信
 
-        // レスポンスの取得
-        $body = $response->getBody();
-        $data = json_decode($body, true);
-
-        if ($data) {
-            // Preferenceを更新または新規作成
-            $preference = UserPreference::firstOrNew([
-                'user_id' => $user->id,
-                'cluster_id' => $data['cluster_id'],
+            $user_preference = UserPreference::where('user_id', $user->id)->first();
+            if($user_preference){
+                // Preferenceが存在する場合は、preferenceを更新しない
+                return Inertia::render('Completed', ['message' => 'ユーザー情報を更新しました。']);
+            };
+            $response = $client->request('POST', $this->client_api_url . '/get_cluster', [
+                'query' => ['sentence' => $userInformation->company_overview] // クエリパラメータとしてcompany_overviewを送信
             ]);
-            $preference->save();
-        } else {
-            Log::warning("データの取得に失敗しました。");
+            
+            // レスポンスの取得
+            $body = $response->getBody();
+            $data = json_decode($body, true);
+
+            if ($data) {
+                // Preferenceを更新または新規作成
+                $preference = UserPreference::firstOrNew([
+                    'user_id' => $user->id,
+                    'cluster_id' => $data['cluster_id'],
+                ]);
+                $preference->save();
+            } else {
+                Log::warning("データの取得に失敗しました。");
+            }
+        } catch (\Exception $e) {
+            Log::error("API呼び出しエラー: " . $e->getMessage());
+            return Inertia::render('Completed', ['message' => 'クラスター情報の取得に失敗しました。']);
         }
-    } catch (\Exception $e) {
-        Log::error("API呼び出しエラー: " . $e->getMessage());
-        return Inertia::render('Completed', ['message' => 'クラスター情報の取得に失敗しました。']);
-    }
 
     // クラスターとユーザーの情報を取得
     $customer_data = User::with(['information', 'preference', 'cluster'])->find(Auth::user()->id);

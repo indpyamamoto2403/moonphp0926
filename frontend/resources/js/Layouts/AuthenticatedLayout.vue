@@ -30,7 +30,7 @@ const login_name = usePage().props.auth.user?.login_name;
 
                     <!-- Navigation Links -->
                     <div class="overflow-x-auto whitespace-nowrap">
-                        <div class="flex space-x-1 text-yellow-300 overflow-hidden">
+                        <div class="flex justify-between space-x-1 text-yellow-300 overflow-hidden">
                             <NavLink :href="route('customer')" :active="route().current('customer')">User登録</NavLink>
                             <NavLink :href="route('customer-view')" :active="route().current('customer-view')">User情報</NavLink>
                             <NavLink :href="route('customer-news')" :active="route().current('customer-news')">News</NavLink>

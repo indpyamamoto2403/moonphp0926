@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
-
+import Spinner from '@/Atoms/Spinner.vue';
 const form = useForm({
     url: '',
     keyword1: '',
@@ -52,7 +52,8 @@ const selected_radio = ref('Keyword');
 
 <template>
 <AuthenticatedLayout>
-    <div class="w-full max-w-[600px] ml-0">
+    <spinner v-if="isLoading" />
+    <div class="w-full ml-0 mb-12">
         <h1 class="text-white text-2xl font-semibold mt-4">ワード検索</h1>
         <div class="flex flex-col w-full text-white mt-6 gap-y-4">
             <div class="radio gap-x-2">
@@ -76,8 +77,12 @@ const selected_radio = ref('Keyword');
                    placeholder="URL" 
                    :disabled="selected_radio === 'Keyword'"
                    :class="{ 'opacity-50 cursor-not-allowed': selected_radio === 'Keyword' }">
+            <span v-if="form.errors.url" class="text-red-500 text-xs">{{ form.errors.url }}</span>
 
-            <button @click="send_url" class="w-full p-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg">
+            <button @click="send_url" 
+                    class="w-full p-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg"
+                    :disabled="selected_radio === 'Keyword'"
+                   :class="{ 'opacity-50 cursor-not-allowed': selected_radio === 'Keyword' }">
                 <span v-if="isLoading">ロード中...</span>
                 <span v-else>URL検索</span>
             </button>
@@ -114,7 +119,10 @@ const selected_radio = ref('Keyword');
                 <option value="4">4件</option>
                 <option value="5">5件</option>
             </select> 
-            <button @click="send_form" class="w-full p-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg">
+            <button @click="send_form" 
+                    class="w-full p-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg"
+                    :disabled="selected_radio === 'URL'"
+                   :class="{ 'opacity-50 cursor-not-allowed': selected_radio === 'URL' }">
                 <span v-if="isLoading">ロード中...</span>
                 <span v-else>キーワード検索</span>
             </button>

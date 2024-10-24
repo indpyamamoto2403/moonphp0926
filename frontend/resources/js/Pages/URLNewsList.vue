@@ -26,7 +26,7 @@ const props = defineProps({
 
                 <div>
                     <p class="text-sm text-gray-400 uppercase tracking-wider">
-                        回答:
+                        要約記事概要:
                     </p>
                     <p class="text-base leading-relaxed">
                         {{ news_data.answer || 'No answer available' }}

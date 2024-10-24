@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\KeywordSearchRequest;
+use App\Http\Requests\URLSearchRequest;
 use App\Models\KeywordSearch;
 use App\Models\MNews;
 use App\Models\ViewedNews;
@@ -84,7 +85,7 @@ class ShowNewsController extends Controller
         }
     }
 
-    public function url(Request $request){
+    public function url(URLSearchRequest $request){
         $url = $request->input('url');
         Log::debug($url);
         $client = new Client();
@@ -133,7 +134,7 @@ class ShowNewsController extends Controller
             //     }
             // }
             // ユーザーにニュースデータを返す
-            return Inertia::render('URLSearch', [
+            return Inertia::render('URLNewsList', [
                 'news_data' => $data
             ]);
             
