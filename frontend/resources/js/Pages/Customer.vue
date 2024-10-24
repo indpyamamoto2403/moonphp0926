@@ -160,7 +160,7 @@ const submit_items = async () => {
 
     <Spinner :show="loading" />
     <AuthenticatedLayout>
-            <div class="min-h-screen bg-black flex flex-col items-center mb-10 text-sm w-[600px]">
+            <div class="min-h-screen bg-black flex flex-col items-center mb-10 text-sm w-full">
                 <div class="w-full">
                     <!-- 画像アップロードセクション -->
                     <div class="mt-10 bg-white shadow-lg rounded-lg w-full mx-auto p-4">

@@ -15,7 +15,7 @@ const props = defineProps({
 
 <template>
     <AuthenticatedLayout>
-        <div class="min-h-screen mt-12 text-white  mb-4 w-[600px]">
+        <div class="min-h-screen mt-12 text-white  mb-4 w-full">
             <div class="space-y-4 flex flex-col w-full">
                 <div class="section">
                     <span class="font-semibold text-right">会社名: </span>
